@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 8000;
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 const dns = require("node:dns");
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
@@ -30,6 +30,17 @@ async function run() {
           const cursor =usersCollection.find()
           const users = await cursor.toArray()
           res.send(users)
+    })
+    app.get('/users/:id' , async (req, res)=>{
+          // const cursor =usersCollection.find()
+          const id = req.params.id
+          console.log(id)
+          // console.log(req)
+          const query = {
+            _id: new ObjectId(id)
+          }
+          const user = await usersCollection.findOne(query)
+          res.send(user)
     })
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
