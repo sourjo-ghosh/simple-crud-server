@@ -34,12 +34,19 @@ async function run() {
     app.get('/users/:id' , async (req, res)=>{
           // const cursor =usersCollection.find()
           const id = req.params.id
-          console.log(id)
-          // console.log(req)
           const query = {
             _id: new ObjectId(id)
           }
           const user = await usersCollection.findOne(query)
+          res.send(user)
+    })
+    app.delete('/users/:id' , async (req, res)=>{
+          // const cursor =usersCollection.find()
+          const id = req.params.id
+          const query = {
+            _id: new ObjectId(id)
+          }
+          const user = await usersCollection.deleteOne(query)
           res.send(user)
     })
     // Send a ping to confirm a successful connection
