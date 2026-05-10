@@ -42,10 +42,32 @@ async function run() {
     })
     app.post("/users", async (req, res)=>{
       const newUser = req.body;
-      console.log("new user data",newUser)
+      // console.log("new user data",newUser)
       const results = await usersCollection.insertOne(newUser)
       res.send(results)
     })
+
+
+
+    app.patch('/users/:id', async (req, res)=>{
+      const id = req.params.id;
+      const filter = {
+        _id: new ObjectId(id)
+      }
+      const modifiedUser = req.body
+      const updatedDocument = {
+        $set : {
+          name : modifiedUser.name,
+          email : modifiedUser.email,
+          role : modifiedUser.role,
+        }
+      }
+      const results = await usersCollection.updateOne(filter, updatedDocument)
+      console.log("data after update in server", results)
+      res.send(results)
+    })
+
+
     app.delete('/users/:id' , async (req, res)=>{
           // const cursor =usersCollection.find()
           const id = req.params.id
