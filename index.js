@@ -40,6 +40,12 @@ async function run() {
           const user = await usersCollection.findOne(query)
           res.send(user)
     })
+    app.post("/users", async (req, res)=>{
+      const newUser = req.body;
+      console.log("new user data",newUser)
+      const results = await usersCollection.insertOne(newUser)
+      res.send(results)
+    })
     app.delete('/users/:id' , async (req, res)=>{
           // const cursor =usersCollection.find()
           const id = req.params.id
